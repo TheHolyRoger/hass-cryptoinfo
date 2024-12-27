@@ -754,13 +754,19 @@ class CryptoinfoAdvSensor(SensorEntity):
         return primary_data, api_data
 
     def _extract_data_price_main_primary(self, api_data):
-        return api_data["current_price"] * float(self.multiplier)
+        if api_data is not None:
+            return api_data["current_price"] * float(self.multiplier)
+        else:
+            raise ValueError()
 
     def _extract_data_price_main_full(self, json_data):
         return json_data[0]
 
     def _extract_data_price_simple_primary(self, api_data):
-        return api_data[self.currency_name] * float(self.multiplier)
+        if api_data is not None:
+            return api_data[self.currency_name] * float(self.multiplier)
+        else:
+            raise ValueError()
 
     def _extract_data_price_simple_full(self, json_data):
         return json_data[self.cryptocurrency_name]
@@ -895,7 +901,6 @@ class CryptoinfoAdvSensor(SensorEntity):
                 ath_date=api_data.get("ath_date"),
                 atl_date=api_data.get("atl_date"),
             )
-
         else:
             raise ValueError()
 
@@ -919,7 +924,6 @@ class CryptoinfoAdvSensor(SensorEntity):
                 change_24h=api_data[self.currency_name + "_24h_change"],
                 market_cap=api_data[self.currency_name + "_market_cap"]
             )
-
         else:
             raise ValueError()
 
